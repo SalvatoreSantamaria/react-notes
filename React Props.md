@@ -108,3 +108,84 @@ class ShoppingCart extends React.Component {
     return <Items />
   }
 };
+
+## Access Props Using this.props
+ES6 class component uses the this keyword.
+```
+class PassAlongText extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+  render() {
+    return (
+        <div>
+            <p>The text that is passed along needs to: <strong>{this.props.thisIsTheProp}</strong></p>
+        </div>
+    );
+  }
+};
+
+class ResetPassword extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+  render() {
+    return (
+        <div>
+            <PassAlongText thisIsTheProp={'use this.props with an ES6 class'}/>
+        </div>
+    );
+  }
+};
+```
+---
+## Review Using Props with Stateless Functional Components
+```
+class CampSite extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <Camper/>
+      </div>
+    );
+  }
+};
+
+const Camper = (props) => <p>{props.name}</p>;
+
+
+Camper.defaultProps = {
+  name: "CamperBot"
+};
+
+Camper.propTypes = {
+  name: PropTypes.string.isRequired
+};
+```
+
+## Create a Stateful Component
+Create state in a React component by declaring a state property on the component class in its constructor. 
+This initializes the component with state when it is created. 
+
+```
+class StatefulComponent extends React.Component {
+  constructor(props) {
+    super(props);
+      this.state = {
+        name: 'This text is accessed through the state!'
+      }
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.state.name}</h1>
+      </div>
+    );
+  }
+};
+```
