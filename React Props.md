@@ -85,3 +85,26 @@ class ShoppingCart extends React.Component {
 };
 
 ```
+## Use PropTypes to Define the Props You Expect
+PropTypes is imported independently from React, like this: import PropTypes from 'prop-types';
+Set propTypes on your component to require the data to be of a type (array, etc).
+
+const Items = (props) => {
+  return <h1>Current Quantity of Items in Cart: {props.quantity}</h1>
+};
+
+Items.propTypes = { quantity: PropTypes.number.isRequired }
+also: PropTypes.func.isRequired, PropTypes.bool.isRequired... object, string, symbol, element... see https://reactjs.org/docs/typechecking-with-proptypes.html
+
+Items.defaultProps = {
+  quantity: 0
+};
+
+class ShoppingCart extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return <Items />
+  }
+};
