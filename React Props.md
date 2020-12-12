@@ -1,6 +1,6 @@
 ## Pass Props to a Stateless Functional Component
 You can pass props, or properties, to child components.
-```
+```javascript
 const CurrentDate = (props) => {
   return (
     <div>
@@ -29,7 +29,7 @@ class Calendar extends React.Component {
 ## Pass an Array as Props
 To pass an array to a JSX element, it must be treated as JavaScript and wrapped in curly braces.
 
-```
+```javascript
 const List = (props) => {
   return <p>{props.arr.join(", ")}</p>;
 };
@@ -52,7 +52,7 @@ class ToDo extends React.Component {
 ---
 ## Use Default Props
 Assign default props to a component as a property on the component itself and React assigns the default prop if no value is passed in.
-```
+```javascript
 const ShoppingCart = (props) => {
   return (
     <div>
@@ -66,7 +66,7 @@ ShoppingCart.defaultProps = {items: 0}
 ---
 ## Override Default Props
 Override default props by explicitly setting the prop values for a component.
-```
+```javascript
 const Items = (props) => {
   return <h1>Current Quantity of Items in Cart: {props.quantity}</h1>
 }
@@ -89,7 +89,7 @@ class ShoppingCart extends React.Component {
 ## Use PropTypes to Define the Props You Expect
 PropTypes is imported independently from React, like this: import PropTypes from 'prop-types';  
 Set propTypes on your component to require the data to be of a type (array, etc).
-```
+```javascript
 const Items = (props) => {
   return <h1>Current Quantity of Items in Cart: {props.quantity}</h1>
 };
@@ -114,7 +114,7 @@ class ShoppingCart extends React.Component {
 
 ## Access Props Using this.props
 ES6 class component uses the this keyword.
-```
+```javascript
 class PassAlongText extends React.Component {
   constructor(props) {
     super(props);
@@ -145,7 +145,7 @@ class ResetPassword extends React.Component {
 ```
 ---
 ## Review Using Props with Stateless Functional Components
-```
+```javascript
 class CampSite extends React.Component {
   constructor(props) {
     super(props);
@@ -175,7 +175,7 @@ Camper.propTypes = {
 Create state in a React component by declaring a state property on the component class in its constructor.  
 This initializes the component with state when it is created. 
 
-```
+```javascript
 class StatefulComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -197,7 +197,7 @@ class StatefulComponent extends React.Component {
 When state data updates, it triggers a re-render of the components using that data.  
 A components state is completely encapsulated, or local to that component, unless you pass state data to a child component as props.
 
-```
+```javascript
 class MyComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -215,7 +215,7 @@ class MyComponent extends React.Component {
 };
 ```
 ### Render State in the User Interface Another Way
-```
+```javascript
 class MyComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -238,7 +238,7 @@ class MyComponent extends React.Component {
 this.setState() changes a components state.  
 Keys are state properties.  
 Values are updated state data.  
-```
+```javascript
 class MyComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -271,7 +271,7 @@ class MyComponent extends React.Component {
 ## Use State to Toggle an Element
 Pass setState a function that allows you to access state and props.  
 Using a function with setState guarantees you are working with the most current values of state and props.
-```
+```javascript
 class MyComponent extends React.Component {
   constructor(props) {
     super(props);
@@ -304,4 +304,315 @@ class MyComponent extends React.Component {
 };
 ```
 ---
+## Write a Simple Counter
+```javascript
+class Counter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 0
+    };
+
+    this.increment = this.increment.bind(this)
+    this.decrement = this.decrement.bind(this)
+    this.reset = this.reset.bind(this)
+
+  }
+
+  reset() {
+    this.setState(state => ({
+      count: 0
+    }))
+  }
+
+  decrement() {
+    this.setState(state => ({
+      count: state.count - 1
+    }));
+  }
+
+  increment() {
+    this.setState(state => ({
+      count: state.count + 1 //set it to whatever it is not
+    }));
+  }
+  render() {
+    return (
+      <div>
+        <button className='inc' onClick={this.increment}>Increment!</button>
+        <button className='dec' onClick={this.decrement}>Decrement!</button>
+        <button className='reset' onClick={this.reset}>Reset</button>
+        <h1>Current Count: {this.state.count}</h1>
+      </div>
+    );
+  }
+};
+```
+---
+
+## Create a controlled input
+Form control elements for text input, such as input and textarea, maintain their own state in the DOM as the user types.  
+With React, you can move this mutable state into a React component's state.  
+The user's input becomes part of the application state, so React controls the value of that input field.  
+Typically, if you have React components with input fields the user can type into, it will be a controlled input form.  
+```javascript
+class ControlledInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: ''
+    };
+    this.handleChange = this.handleChange.bind(this)
+  }
+
+  handleChange(event) {
+    this.setState({
+      input: event.target.value
+    })
+  }
+
+  render() {
+    return (
+      <div>
+        <input value = {this.state.input} onChange = {this.handleChange.bind(this)}
+        <h4>Controlled Input:</h4>
+        <p>{this.state.input}</p>
+      </div>
+    );
+  }
+};
+```
+---
+
+## Create a controlled form
+```javascript
+class MyForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      input: '',
+      submit: ''
+    };
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleChange(event) {
+    this.setState({
+      input: event.target.value
+    });
+  }
+  handleSubmit(event) {
+    event.preventDefault()
+    this.setState({
+      submit: this.state.input
+    });
+  }
+  render() {
+    return (
+      <div>
+        <form onSubmit={this.handleSubmit}>
+          <input
+            value={this.state.input}
+            onChange={this.handleChange} />
+          <button type='submit'>Submit!</button>
+        </form>
+        <h1>{this.state.submit}</h1>
+      </div>
+    );
+  }
+};
+```
+---
+## Pass State as Props to Child Components
+A stateful component containing the state then renders child components.  
+These components to have access to some pieces of that state, which are passed in as props.  
+
+```javascript
+class MyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: 'CamperBot'
+    }
+  }
+  render() {
+    return (
+       <div>
+         <Navbar name={this.state.name}/>
+       </div>
+    );
+  }
+};
+
+class Navbar extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+    <div>
+      <h1>Hello, my name is: {this.props.name}</h1> //pass piece of state into Navbar via props
+    </div>
+    );
+  }
+};
+```
+---
+
+## Pass a Callback as Props
+Pass handler functions or any method that's defined on a React component to a child component.  
+This is how you allow child components to interact with their parent components.  
+You pass methods to a child just like a regular prop.  
+It's assigned a name and you have access to that method name under this.props in the child component.  
+```javascript
+class MyApp extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      inputValue: ''
+    }
+    this.handleChange = this.handleChange.bind(this);
+  }
+  handleChange(event) {
+    this.setState({
+      inputValue: event.target.value
+    });
+  }
+  render() {
+    return (
+       <div>
+          <GetInput input={this.state.inputValue} handleChange={this.handleChange}/> //prop called input  is assign inputValue from the MyApp state.
+          //prop called handleChange is getting input handler handleChange passed to it
+          <RenderInput input={this.state.inputValue}/>
+       </div>
+    );
+  }
+};
+
+class GetInput extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h3>Get Input:</h3>
+        <input
+          value={this.props.input}
+          onChange={this.props.handleChange}/>
+      </div>
+    );
+  }
+};
+
+class RenderInput extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <h3>Input Render:</h3>
+        <p>{this.props.input}</p>
+      </div>
+    );
+  }
+};
+```
+---
+## Lifecycle Methods 
+Lifecycle hooks aka lifecycle methods, allow you to catch components at certain points in time: before rendering, updating, receiving props, etc.  
+Main lifecycle methods:  
+componentWillMount() componentDidMount() shouldComponentUpdate() componentDidUpdate() componentWillUnmount()  
+
+---
+## Lifecycle Method componentWillMount
+
+```javascript
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  componentWillMount() {
+    console.log('The componentWillMount() method is called before the render() method when a component is being mounted to the DOM')
+  }
+  render() {
+    return <div />
+  }
+};
+```
+---
+
+## Lifecycle Method componentDidMount
+Call an API endpoint to retrieve data. 
+The best practice with React is to place API calls or any calls to your server in the lifecycle method componentDidMount().    
+This method is called after a component is mounted to the DOM.  
+Any calls to setState() here will trigger a re-rendering of your component.  
+When you call an API in this method, and set your state with the data that the API returns, it will automatically trigger an update once you receive the data.  
+```javascript
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      activeUsers: null
+    };
+  }
+  //mockApi call to simulate calling server to retrieve data after 2500 ms
+  componentDidMount() {
+    setTimeout(() => {
+      this.setState({
+        activeUsers: 1273
+      });
+    }, 2500);
+  }
+  render() {
+    return (
+      <div>
+        <h1>Active Users: {this.state.activeUsers}</h1>
+      </div>
+    );
+  }
+}
+```
+---
+## Add Event Listeners
+The componentDidMount() method is also the best place to attach any event listeners you need to add for specific functionality.  
+```javascript
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      message: ''
+    };
+    this.handleEnter = this.handleEnter.bind(this);
+    this.handleKeyPress = this.handleKeyPress.bind(this);
+  }
+  
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyPress);
+  }
+  componentWillUnmount() {
+    document.removeEventListener("keydown", this.handleKeyPress);
+  }
+
+  handleEnter() {
+    this.setState((state) => ({
+      message: state.message + 'You pressed the enter key! '
+    }));
+  }
+  handleKeyPress(event) {
+    if (event.keyCode === 13) {
+      this.handleEnter();
+    }
+  }
+  render() {
+    return (
+      <div>
+        <h1>{this.state.message}</h1>
+      </div>
+    );
+  }
+};
+```
+
 
