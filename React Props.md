@@ -374,7 +374,7 @@ class ControlledInput extends React.Component {
   render() {
     return (
       <div>
-        <input value = {this.state.input} onChange = {this.handleChange.bind(this)}
+        <input value = {this.state.input} onChange = {this.handleChange.bind(this)}>
         <h4>Controlled Input:</h4>
         <p>{this.state.input}</p>
       </div>
